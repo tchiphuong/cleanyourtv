@@ -45,7 +45,7 @@ public class LunarTest {
         c.set(2026, java.util.Calendar.OCTOBER, 27);
         String upcoming = Lunar.upcomingHolidays(c, 3, 7);
         org.junit.Assert.assertTrue(upcoming.startsWith("Sắp tới: "));
-        String[] items = upcoming.substring("Sắp tới: ".length()).split(" · ");
+        String[] items = upcoming.substring("Sắp tới: ".length()).split("   ·   ");
         org.junit.Assert.assertEquals(3, items.length);
         for (String item : items) {
             org.junit.Assert.assertTrue(item.contains("(còn ") && item.contains(" ngày)"));

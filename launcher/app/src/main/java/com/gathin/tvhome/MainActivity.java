@@ -478,6 +478,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         shamsi = cfg.shamsiDate;
         lunarDate = findViewById(R.id.lunarDate);
         holidayCountdown = findViewById(R.id.holidayCountdown);
+        if (holidayCountdown != null) holidayCountdown.setSelected(true);
         lunar = cfg.lunarDate;
         lunarOffset = Lunar.offsetFor(cfg.lunarUtcOffset, Locale.getDefault());
         if (lunar) lunarDate.setVisibility(View.VISIBLE);
@@ -487,7 +488,6 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             TextView date = findViewById(R.id.date);
             date.setTextSize(11f);
             lunarDate.setTextSize(11f);
-            if (holidayCountdown != null) holidayCountdown.setTextSize(10f);
             date.setPadding(0, (int) (4 * density), 0, 0);
         }
         vpnApp = cfg.vpnApp;
@@ -926,6 +926,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         }
         restartIdleClock();
         promptsPaused = false;
+        if (holidayCountdown != null) holidayCountdown.setSelected(true);
         if (grid.getAdapter() == null) grid.setAdapter(adapter);   // dropped by onTrimMemory
         switch (tileRefresh.onResume(packagesChangedSinceRebuild())) {
             case REBUILD:
@@ -2471,6 +2472,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
                 if (upcoming != null && !upcoming.isEmpty()) {
                     holidayCountdown.setText(upcoming);
                     holidayCountdown.setVisibility(View.VISIBLE);
+                    holidayCountdown.setSelected(true);
                 } else {
                     holidayCountdown.setVisibility(View.GONE);
                 }

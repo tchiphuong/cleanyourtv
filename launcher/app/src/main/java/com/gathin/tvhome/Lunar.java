@@ -136,7 +136,7 @@ final class Lunar {
             lastGroup = groupKey;
 
             if (found > 0) {
-                sb.append(" · ");
+                sb.append("   ·   ");
             }
             sb.append(displayName).append(" (còn ").append(offset).append(" ngày)");
             found++;
