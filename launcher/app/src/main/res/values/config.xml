@@ -201,7 +201,7 @@
          Gregorian date. -->
     <bool name="shamsi_date">false</bool>
     <!-- Lunisolar (Vietnamese / Chinese) date under the date; config.json lunar_date, lunar_utc_offset (7 or 8, default by locale). -->
-    <bool name="lunar_date">false</bool>
+    <bool name="lunar_date">true</bool>
 
     <!-- A name after the greeting: "Mr. Trịnh" shows GOOD MORNING, MR. TRỊNH. Empty: the greeting alone. -->
     <string name="greeting_name" translatable="false"></string>
@@ -227,7 +227,7 @@
     <!-- The dock band as light frosted glass, like the Inputs, Wi-Fi and Settings pills, so a sky or wallpaper shows
          through it. false (the default) keeps the solid near-black band, or the cinematic shelf's dark glass. Can
          also be set with "dock_glass": true in a theme's config.json. -->
-    <bool name="dock_glass">false</bool>
+    <bool name="dock_glass">true</bool>
     <!-- Every app in one row: the dock apps first, the rest after them, and the row scrolls sideways when focus
          reaches its edge. No grid below; rows_below_dock is ignored. Needs dock_row. Can also be set with
          "single_row" in a theme. -->
@@ -244,13 +244,13 @@
     <bool name="reorder_button">false</bool>
     <!-- Wi-Fi and Settings as round icon-only buttons (the network name moves to the talkback description);
          Inputs keeps its label. -->
-    <bool name="icon_only_buttons">false</bool>
+    <bool name="icon_only_buttons">true</bool>
     <!-- The Inputs pill as a round icon button too (the label moves to the talkback description). -->
     <bool name="icon_only_inputs">false</bool>
     <!-- true colours the Wi-Fi pill's icon green while the TV is online and leaves it white while it is not (dark on
          the focused pill either way), so the connection shows at a glance, also as an icon-only button. Can also be
          set with "wifi_status_color": true in a theme's config.json. -->
-    <bool name="wifi_status_color">false</bool>
+    <bool name="wifi_status_color">true</bool>
     <!-- With wifi_status_color: the icon orange while the TV is connected but Android has not reached the internet
          through it (a hotel or holiday-park Wi-Fi waiting for its login page) and red while it is offline, instead
          of white for both. Can also be set with "wifi_status_warnings": true in a theme's config.json. -->
@@ -307,7 +307,7 @@
 
     <!-- Basic motion is on; advanced effects are opt-in in the launcher's own Settings screen. -->
     <bool name="animations">true</bool>
-    <bool name="advanced_effects">false</bool>
+    <bool name="advanced_effects">true</bool>
 
     <!-- Optional Default-home tile; keep this key for existing themes and tile-ordering work.
          Off by default because the chooser is also available from launcher settings. -->
@@ -315,6 +315,10 @@
 
     <!-- Installed launchable apps, including ordinary Android apps. Also settable in config.json. -->
     <bool name="app_library">false</bool>
+    <!-- Tablet / Mobile mode: scan both LEANBACK (TV) and standard LAUNCHER apps.
+         Off by default for TV; can be enabled here, via build parameter (-Ptarget=tablet or -Ptablet=true),
+         or with "tablet_mode": true in a theme's config.json. -->
+    <bool name="tablet_mode">false</bool>
     <!-- Every app tile is its icon on a card tinted from that icon, name only under the focused tile,
          instead of each app's own banner. Off by default; a theme can set "uniform_tiles": true. -->
     <bool name="uniform_tiles">false</bool>
@@ -355,7 +359,7 @@
          horizon glow around sunrise and sunset. 0 keeps the plain background (the default); 1 to 100
          sets its opacity. Around 60 reads clearly without hiding a wallpaper. Can also be set with
          "sky_intensity": 60 in a theme's config.json. -->
-    <integer name="sky_intensity">0</integer>
+    <integer name="sky_intensity">60</integer>
     <!-- Where the TV is, in decimal degrees, so the sky's sunrise and sunset glows follow the real sun
          (computed on the TV, no network). Empty: a fixed temperate day, sunset glow around 19:00.
          Vilnius: 54.69 and 25.28. -->
@@ -387,11 +391,11 @@
     <bool name="ambient_glow">true</bool>
     <!-- The focus highlight glows in the focused app's colour on every tile, as the cinematic shelf does for the
          dock, without cinematic_home. Can also be set with "app_glow": true in a theme's config.json. -->
-    <bool name="app_glow">false</bool>
+    <bool name="app_glow">true</bool>
     <!-- The rows fade out as they scroll up under the clock, instead of being cut off at a hard line (TopFade).
          The grid then draws into a hardware layer, about 6 MB of graphics memory at 1080p, so it is off by default.
          Can also be set with "fade_rows": true in a theme's config.json. -->
-    <bool name="fade_rows">false</bool>
+    <bool name="fade_rows">true</bool>
     <!-- Minutes Home may sit untouched before it shows the clock screensaver (ClockActivity); 0 turns it off.
          Unlike the system screensaver this never starts over live TV or an app, which matters on TVs whose
          Live TV window does not keep the screen on (CVTE): there the system screensaver would start in the
@@ -409,7 +413,7 @@
     <!-- Shape of the glow behind the focused app, in its colour: radial (a soft glow, the default) or horizon (the
          colour washes down from the top edge and fades to black, brightest along the top). The cinematic shelf
          keeps its own glow. Can also be set with "glow_style": "horizon" in a theme's config.json. -->
-    <string name="glow_style" translatable="false">radial</string>
+    <string name="glow_style" translatable="false">horizon</string>
     <!-- The focus highlight's look: glass (the default: a translucent slab with a bright top sheen, a crisp rim and a
          faint outer glow), rim (the crisp rim alone, no sheen, fill or glow, for a quiet focus over a wallpaper) or
          halo (the rim with a lighter outer glow). Can also be set with "glass_style": "rim" in a theme's config.json. -->

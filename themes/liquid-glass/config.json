@@ -1,0 +1,25 @@
+{
+  "dock_apps": [
+    "com.netflix.ninja",
+    "com.google.android.youtube.tv",
+    "com.amazon.amazonvideo.livingroom",
+    "com.google.android.apps.tv.dreamx"
+  ],
+  "background_color": "#080B12",
+  "sky_intensity": 60,
+  "dock_glass": true,
+  "dock_even_padding": false,
+  "dock_opacity": 60,
+  "app_glow": true,
+  "ambient_glow": true,
+  "glow_style": "horizon",
+  "glass_style": "glass",
+  "icon_only_buttons": true,
+  "wifi_status_color": true,
+  "wifi_status_warnings": true,
+  "fade_rows": true,
+  "advanced_effects": true,
+  "focus_overshoot": true,
+  "lunar_date": true,
+  "lunar_utc_offset": 7
+}

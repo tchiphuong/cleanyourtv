@@ -129,6 +129,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     private String sourcePanelAction;
     private String sourcePanelExtra;
     private boolean coocaaSources;
+    private boolean tabletMode;
 
     private AppAdapter adapter;
     private RecyclerView grid;
@@ -180,7 +181,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     private boolean pillsShown;
     private TextView shamsiDate;
     /** lunar_date: the lunisolar date under the date line, and the time zone it is computed for. */
-    private TextView lunarDate;
+    private TextView lunarDate, holidayCountdown;
     private boolean lunar;
     private int lunarOffset;
     private TextView stats;
@@ -407,6 +408,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         sourcePanelAction = cfg.sourcePanelAction;
         sourcePanelExtra = cfg.sourcePanelExtra;
         coocaaSources = cfg.coocaaSources;
+        tabletMode = cfg.tabletMode;
 
         root = findViewById(R.id.root);
         root.setBackgroundColor(cfg.backgroundColor);
@@ -475,6 +477,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         showStats = cfg.showStats;
         shamsi = cfg.shamsiDate;
         lunarDate = findViewById(R.id.lunarDate);
+        holidayCountdown = findViewById(R.id.holidayCountdown);
         lunar = cfg.lunarDate;
         lunarOffset = Lunar.offsetFor(cfg.lunarUtcOffset, Locale.getDefault());
         if (lunar) lunarDate.setVisibility(View.VISIBLE);
@@ -484,6 +487,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             TextView date = findViewById(R.id.date);
             date.setTextSize(11f);
             lunarDate.setTextSize(11f);
+            if (holidayCountdown != null) holidayCountdown.setTextSize(10f);
             date.setPadding(0, (int) (4 * density), 0, 0);
         }
         vpnApp = cfg.vpnApp;
@@ -1075,9 +1079,26 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         // An updated app may bring new artwork; the backdrop is cheap to make again.
         heroArtCache.clear();
         heroArtKey = null;
-        // One LEANBACK query for both the tiles and the card checks.
-        final List<ResolveInfo> leanback = getPackageManager().queryIntentActivities(
-                new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LEANBACK_LAUNCHER), 0);
+        final List<ResolveInfo> leanback;
+        if (tabletMode) {
+            List<ResolveInfo> allApps = new ArrayList<>(getPackageManager().queryIntentActivities(
+                    new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LEANBACK_LAUNCHER), 0));
+            Set<String> seenPkg = new HashSet<>();
+            for (ResolveInfo ri : allApps) {
+                if (ri.activityInfo != null) seenPkg.add(ri.activityInfo.packageName);
+            }
+            for (ResolveInfo ri : getPackageManager().queryIntentActivities(
+                    new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER), 0)) {
+                if (ri.activityInfo != null && seenPkg.add(ri.activityInfo.packageName)) {
+                    allApps.add(ri);
+                }
+            }
+            leanback = allApps;
+        } else {
+            // One LEANBACK query for both the tiles and the card checks.
+            leanback = getPackageManager().queryIntentActivities(
+                    new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LEANBACK_LAUNCHER), 0);
+        }
         cards = moduleCards ? CardFeature.run(() -> Cards.discover(this, hiddenApps,
                 () -> Cards.load(Cards.storeFile(this)), leanback), none) : none;
         adapter.reload(cards.isEmpty() ? none : CardFeature.run(() -> Cards.shown(cards), none), leanback);
@@ -2443,7 +2464,18 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             greeting.setTextColor(greetingColor);
         }
         if (shamsi) shamsiDate.setText(Shamsi.today(getResources()));
-        if (lunar) lunarDate.setText(Lunar.today(getResources(), lunarOffset));
+        if (lunar) {
+            lunarDate.setText(Lunar.today(getResources(), lunarOffset));
+            if (holidayCountdown != null) {
+                String upcoming = Lunar.upcomingHolidays(3, lunarOffset);
+                if (upcoming != null && !upcoming.isEmpty()) {
+                    holidayCountdown.setText(upcoming);
+                    holidayCountdown.setVisibility(View.VISIBLE);
+                } else {
+                    holidayCountdown.setVisibility(View.GONE);
+                }
+            }
+        }
     }
 
     // ---- race-weekend panel (a theme's race_calendar) -----------------------------------------------

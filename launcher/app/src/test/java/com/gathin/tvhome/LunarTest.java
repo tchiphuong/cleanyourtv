@@ -38,4 +38,17 @@ public class LunarTest {
         assertArrayEquals(new int[]{1, 1, 1985, 0}, Lunar.fromSolar(21, 1, 1985, 7));
         assertArrayEquals(new int[]{1, 1, 1985, 0}, Lunar.fromSolar(20, 2, 1985, 8));
     }
+
+    @Test
+    public void testUpcomingHolidays() {
+        java.util.Calendar c = java.util.Calendar.getInstance();
+        c.set(2026, java.util.Calendar.OCTOBER, 27);
+        String upcoming = Lunar.upcomingHolidays(c, 3, 7);
+        org.junit.Assert.assertTrue(upcoming.startsWith("Sắp tới: "));
+        String[] items = upcoming.substring("Sắp tới: ".length()).split(" · ");
+        org.junit.Assert.assertEquals(3, items.length);
+        for (String item : items) {
+            org.junit.Assert.assertTrue(item.contains("(còn ") && item.contains(" ngày)"));
+        }
+    }
 }

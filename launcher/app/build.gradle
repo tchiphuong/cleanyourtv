@@ -6,6 +6,10 @@ android {
     namespace 'com.gathin.tvhome'
     compileSdk 34
 
+    buildFeatures {
+        buildConfig true
+    }
+
     defaultConfig {
         // Opt-in identity for firmware with a package-name HOME allowlist; see docs/devices/xiaomi-mitv-aetp0-dofus.md.
         applicationId providers.gradleProperty('launcherApplicationId').getOrElse('com.gathin.tvhome')
@@ -13,6 +17,12 @@ android {
         targetSdk 34
         versionCode 8
         versionName '2.7'
+
+        def targetDevice = providers.gradleProperty('target').getOrElse(
+            providers.gradleProperty('tablet').map { it.equalsIgnoreCase('true') ? 'tablet' : 'tv' }.getOrElse('tv')
+        )
+        def isTablet = targetDevice.equalsIgnoreCase('tablet') || targetDevice.equalsIgnoreCase('phone') || targetDevice.equalsIgnoreCase('mobile')
+        buildConfigField "boolean", "TABLET_MODE", isTablet.toString()
     }
 
     buildTypes {

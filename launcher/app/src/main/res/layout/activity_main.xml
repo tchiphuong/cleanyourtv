@@ -283,8 +283,24 @@
                             android:ellipsize="end"
                             android:textColor="#80FFFFFF"
                             android:textSize="14sp"
-                            android:fontFamily="@font/outfit_regular"
+                            android:fontFamily="@string/font_regular"
                             android:letterSpacing="0.14"
+                            android:textAllCaps="true"
+                            android:visibility="gone" />
+
+                        <!-- Upcoming holidays countdown ("Sắp tới: Nhà Giáo VN (còn 24 ngày) · ...") -->
+                        <TextView
+                            android:id="@+id/holidayCountdown"
+                            android:gravity="left"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:singleLine="true"
+                            android:ellipsize="end"
+                            android:textColor="#80FFFFFF"
+                            android:textSize="12sp"
+                            android:fontFamily="@string/font_regular"
+                            android:letterSpacing="0.10"
                             android:textAllCaps="true"
                             android:visibility="gone" />
                     </LinearLayout>
